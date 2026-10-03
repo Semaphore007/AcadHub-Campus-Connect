@@ -7,7 +7,9 @@ import {
   BookOpen,
   Bot,
   ChevronDown,
+  CircleUser,
   Compass,
+  Target,
   Flame,
   Home,
   Mail,
@@ -20,6 +22,7 @@ import {
 } from "lucide-react"
 import { CommunityIcon } from "@/components/app/community-icon"
 import { NAV_GROUPS } from "@/lib/constants/site"
+import { useCurrentUser } from "@/lib/demo/store"
 import { cn } from "@/lib/utils"
 
 export type ShellCommunity = { id: number; slug: string; name: string; icon: string; color: string }
@@ -34,8 +37,10 @@ type Props = {
 
 const MAIN: { href: string; label: string; icon: LucideIcon; match?: (p: string, sort: string | null) => boolean; badge?: string }[] = [
   { href: "/dashboard", label: "Home", icon: Home, match: (p) => p === "/dashboard" },
+  { href: "/goals", label: "Goals", icon: Target },
   { href: "/feed?sort=top", label: "Popular", icon: Flame, match: (p, s) => p === "/feed" && s === "top" },
   { href: "/communities", label: "Explore", icon: Compass },
+  { href: "/profile", label: "Profile", icon: CircleUser },
   { href: "/messages", label: "Messages", icon: MessageCircle },
   { href: "/friends", label: "Friends", icon: UserPlus },
   { href: "/settings", label: "Settings", icon: SettingsIcon },
@@ -100,7 +105,8 @@ function Group({ title, children, defaultOpen = true }: { title: string; childre
   )
 }
 
-export function Sidebar({ signedIn, communities, pendingRequests, onNavigate, headerOffset = true }: Props) {
+export function Sidebar({ communities, pendingRequests, onNavigate, headerOffset = true }: Props) {
+  const signedIn = useCurrentUser() !== null
   const pathname = usePathname()
   const sort = useSearchParams().get("sort")
 

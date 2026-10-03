@@ -1,6 +1,5 @@
-// Root layout already wraps with AppShell.
-export default async function AppLayout({ children }: { children: React.ReactNode }) {
-  const { requireUser } = await import("@/lib/session")
-  await requireUser()
-  return <>{children}</>
+import { RequireAuth } from "@/components/demo/require-auth"
+
+export default function AppLayout({ children }: { children: React.ReactNode }) {
+  return <RequireAuth>{children}</RequireAuth>
 }
